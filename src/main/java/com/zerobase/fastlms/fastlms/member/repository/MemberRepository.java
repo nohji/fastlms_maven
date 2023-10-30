@@ -3,6 +3,8 @@ package com.zerobase.fastlms.fastlms.member.repository;
 import com.zerobase.fastlms.fastlms.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MemberRepository extends JpaRepository<Member, String> {
+import java.util.Optional;
 
+public interface  MemberRepository extends JpaRepository<Member, String> {
+    Optional<Member> findByEmailAuthKey(String emailAuthKey);
 }
