@@ -1,4 +1,4 @@
-package com.zerobase.fastlms.fastlms;
+package com.zerobase.fastlms.fastlms.main.controller;
 
 import com.zerobase.fastlms.fastlms.components.MailComponents;
 import jakarta.servlet.http.HttpServletRequest;
