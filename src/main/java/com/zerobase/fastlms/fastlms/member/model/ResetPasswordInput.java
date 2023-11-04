@@ -1,0 +1,12 @@
+package com.zerobase.fastlms.fastlms.member.model;
+
+import lombok.Data;
+import lombok.ToString;
+
+@Data
+@ToString
+public class ResetPasswordInput {
+    private String userId;
+    private String userName;
+
+}

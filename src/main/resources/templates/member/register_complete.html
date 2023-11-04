@@ -7,7 +7,7 @@
 <body>
     <div th:if="${result}">
         <h1> 회원 가입 완료 </h1>
-        <div th:replace="/fragments/layout.html :: fragment-body-menu"></div>
+        <div th:replace="(~{/fragments/layout.html :: fragment-body-menu})"></div>
 
         <p>회원 가입 완료되었습니다.</p>
     </div>
