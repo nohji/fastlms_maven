@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>회원가입</title>
 </head>
 <body>
   <h1> 회원가입 </h1>
+  <div th:replace="/fragments/layout.html :: fragment-body-menu"></div>
 
   <form method="post">
     <div>
