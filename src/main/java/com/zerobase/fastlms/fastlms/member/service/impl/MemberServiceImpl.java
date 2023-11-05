@@ -120,7 +120,57 @@ public class MemberServiceImpl implements MemberService {
                 + "<div><a target = '_blank' href = 'http://localhost:8080/member/reset/password?id=" + uuid + "'</a>비밀번호 초기화 링크</div>";
         mailComponents.sendMail(email,subject,text);
 
-        return false;
+        return true;
+    }
+
+    @Override
+    public boolean resetPassword(String uuid, String password) {
+        Optional<Member> optionalMember = memberRepository.findByResetPasswordKey(uuid);
+        if (optionalMember.isEmpty()){
+            throw new UsernameNotFoundException("회원 정보가 존재하지 않습니다.");
+        }
+
+        Member member = optionalMember.get();
+
+        //초기화 날짜가 유효한지 체크
+        if (member.getResetPasswordLimitDt() == null){
+            throw new RuntimeException(" 유효한 날짜가 아닙니다. ");
+        }
+
+        if (member.getResetPasswordLimitDt().isBefore(LocalDateTime.now())){
+            throw new RuntimeException(" 유효한 날짜가 아닙니다. ");
+        }
+
+
+        String encPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+        member.setPassword(encPassword);
+        member.setResetPasswordKey("");
+        member.setResetPasswordLimitDt(null);
+
+        memberRepository.save(member);
+
+        return true;
+    }
+
+    @Override
+    public boolean checkResetPassword(String uuid) {
+        Optional<Member> optionalMember = memberRepository.findByResetPasswordKey(uuid);
+        if (optionalMember.isEmpty()){
+            return false;
+        }
+
+        Member member = optionalMember.get();
+
+        //초기화 날짜가 유효한지 체크
+        if (member.getResetPasswordLimitDt() == null){
+            throw new RuntimeException(" 유효한 날짜가 아닙니다. ");
+        }
+
+        if (member.getResetPasswordLimitDt().isBefore(LocalDateTime.now())){
+            throw new RuntimeException(" 유효한 날짜가 아닙니다. ");
+        }
+
+        return true;
     }
 
 

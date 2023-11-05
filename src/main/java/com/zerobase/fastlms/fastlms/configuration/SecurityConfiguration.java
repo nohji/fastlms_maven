@@ -39,7 +39,8 @@ public class SecurityConfiguration  {
                             .requestMatchers("/"
                                     ,"/member/register"
                                     , "/member/email-auth"
-                                    , "/member/find/password").permitAll()
+                                    , "/member/find-password"
+                                    , "/member/reset/password").permitAll()
                             .anyRequest().authenticated()
             )
             .formLogin(form -> form
