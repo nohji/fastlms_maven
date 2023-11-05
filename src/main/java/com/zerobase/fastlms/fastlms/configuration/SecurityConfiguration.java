@@ -33,26 +33,30 @@ public class SecurityConfiguration  {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-            .csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(authorize ->
-                    authorize
-                            .requestMatchers("/"
-                                    ,"/member/register"
-                                    , "/member/email-auth"
-                                    , "/member/find-password"
-                                    , "/member/reset/password").permitAll()
-                            .anyRequest().authenticated()
-            )
-            .formLogin(form -> form
-                    .loginPage("/member/login")
-                    .failureHandler(getFailureHandler())
-                    .permitAll()
-            )
-            .logout((logout) -> logout
-            .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
-            .logoutSuccessUrl("/")
-            .invalidateHttpSession(true))
-        ;
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorize ->
+                        authorize
+                                .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers("/"
+                                        , "/member/register"
+                                        , "/member/email-auth"
+                                        , "/member/find-password"
+                                        , "/member/reset/password").permitAll()
+                                .anyRequest().authenticated()
+                )
+                .formLogin(form -> form
+                        .loginPage("/member/login")
+                        .failureHandler(getFailureHandler())
+                        .permitAll()
+                )
+                .logout((logout) -> logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
+                        .logoutSuccessUrl("/")
+                        .invalidateHttpSession(true))
+                .exceptionHandling(exception -> exception
+                                    .accessDeniedPage("/error/denied")
+                );
+
 
         return http.build();
     }

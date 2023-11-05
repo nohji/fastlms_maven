@@ -46,4 +46,9 @@ public class MainController {
         printWriter.close();
 
     }
+
+    @RequestMapping("/error/denied")
+    public String errorDenined() {
+       return "error/denied";
+    }
 }
