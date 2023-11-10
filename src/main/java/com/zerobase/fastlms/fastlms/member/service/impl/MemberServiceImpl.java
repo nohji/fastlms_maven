@@ -1,5 +1,7 @@
 package com.zerobase.fastlms.fastlms.member.service.impl;
 
+import com.zerobase.fastlms.fastlms.admin.dto.MemberDto;
+import com.zerobase.fastlms.fastlms.admin.mapper.MemberMapper;
 import com.zerobase.fastlms.fastlms.components.MailComponents;
 import com.zerobase.fastlms.fastlms.member.entity.Member;
 import com.zerobase.fastlms.fastlms.member.exception.MemberNotEmailAuthException;
@@ -27,6 +29,8 @@ import java.util.UUID;
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final MailComponents mailComponents;
+
+    private final MemberMapper memberMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -181,9 +185,13 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<Member> list() {
+    public List<MemberDto> list() {
 
-        return memberRepository.findAll();
+        MemberDto parameter = new MemberDto();
+        List<MemberDto> list =  memberMapper.selectList(parameter);
+
+        return list;
+        //eturn memberRepository.findAll();
     }
 
 
