@@ -11,6 +11,10 @@
         .list table th, .list table td {
             border: solid 1px #000;
         }
+        .search-form{
+            padding: 5px 0 10px 0;
+            text-align: right;
+        }
     </style>
 </head>
 <body>
@@ -27,9 +31,22 @@
         |
         <a href="/member/logout"> 로그아웃 </a>
         <br/>
+        </hr>
     </div>
 
     <div class="list">
+        <div class="search-form">
+            <form method="get">
+                <select name="searchType">
+                    <option value="all">전체</option>
+                    <option th:selected="${#strings.equals(param.searchType, 'userId')}" value="userId">아이디</option>
+                    <option th:selected="${#strings.equals(param.searchType, 'userName')}" value="userName">이름</option>
+                    <option th:selected="${#strings.equals(param.searchType, 'phone')}" value="phone">연락처</option>
+                </select>
+                <input th:value="${param.searchValue}" type="search" name="searchValue" placeholder="검색어 입력"/>
+                <button type="submit">검색</button>
+            </form>
+        </div>
         <table>
             <thead>
                 <tr>
