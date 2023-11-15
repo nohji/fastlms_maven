@@ -27,6 +27,7 @@ public class MemberDto  {
     LocalDateTime resetPasswordLimitDt;
 
     boolean adminYn;
+    String userStatus;
 
     //추가 컬럼
     long totalCount;
@@ -47,6 +48,7 @@ public class MemberDto  {
                 .resetPasswordKey(member.getResetPasswordKey())
                 .resetPasswordLimitDt(member.getResetPasswordLimitDt())
                 .adminYn(member.isEmailAuthYn())
+                .userStatus(member.getUserStatus())
                 .build();
     }
 }
