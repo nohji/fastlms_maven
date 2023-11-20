@@ -12,6 +12,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -21,12 +22,35 @@ public class CourseServiceImpl implements CourseService {
     private final CourseMapper courseMapper;
 
     @Override
+    public CourseDto getById(long id) {
+        return courseRepository.findById(id).map(CourseDto:: of).orElse(null);
+    }
+
+    @Override
     public boolean add(CourseInput parameter) {
         Course course = Course.builder()
+                .categoryId(parameter.getCategoryId())
                 .subject(parameter.getSubject())
                 .regDt(LocalDateTime.now())
                 .build();
 
+        courseRepository.save(course);
+
+        return true;
+    }
+
+    @Override
+    public boolean set(CourseInput parameter) {
+        Optional<Course> optionalCourse = courseRepository.findById(parameter.getId());
+        if(!optionalCourse.isPresent()){
+            //수정할 데이터가 없음
+            return false;
+        }
+
+        Course course = optionalCourse.get();
+        course.setCategoryId(parameter.getCategoryId());
+        course.setSubject(parameter.getSubject());
+        course.setUdtDt(LocalDateTime.now());
         courseRepository.save(course);
 
         return true;
@@ -48,4 +72,6 @@ public class CourseServiceImpl implements CourseService {
 
         return list;
     }
+
+
 }

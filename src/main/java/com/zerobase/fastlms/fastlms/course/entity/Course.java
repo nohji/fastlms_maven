@@ -19,6 +19,8 @@ public class Course {
     @Id
     Long id;
 
+    long categoryId;
+
     String imagePath;
     String keyword;
     String subject;
